@@ -1,6 +1,7 @@
 from matplotlib import pyplot as plt
 
 def rauber_beute(x, **kwargs):
+    """Iterationsfunktion für das Räuber-Beute-Modell."""
     x_elem = list(x)
     assert(len(x_elem) == 2)
     a = kwargs.get('a')
@@ -12,21 +13,61 @@ def rauber_beute(x, **kwargs):
     H = H+a*H-b*H*L
     L = L-c*L+d*H*L
     return [H, L]
+
+
+def cond(x_list):
+    """
+    Abbruchbedinnung für die Iteration.
+    
+    Diese Funktion wird überschrieben wenn eine Abbruchbedinnung gewünscht wird.
+    """
+    return False
     
 
-
-def iteration(f, x=[0, 0], n=10, **kwargs):
-    x_elem = list(x)
-    x_list = [x_elem]
+def iteration(f, x0, n=10, **kwargs):
+    """
+    Führt eine Iteration der Funktion f durch.
+    
+    f: ist die Funktion die als Iterationsmodell verwendet wird.
+    x0: ist der Startwert der Iteration.
+    n: ist die Anzahl Zeitschritte der Iteration (default=10).
+    kwargs: Weitere argumente die der Iterationsfunktion übergeben werden.
+    """
+    x_list = [x0]
     for i in range(n):
-        x_elem = f(x_elem, **kwargs)
+        if cond(x_list):
+            print("Bedingung erfüllt für Element x" + str(i))
+            return
+        x_elem = f(x_list[-1], **kwargs)
         x_list.append(x_elem)
-        # if x_list[-1] < 20:
-        #     print("Bedingung erfüllt für Element x" + str(i))
     return x_list
 
 
-def plot_iteration(func, x0=[0, 0], n=10, **kwargs):
-    x_list = iteration(func, x0, n, **kwargs)
-    plt.plot(x_list)
+def plot_iteration(iter_list):
+    """
+    Plottet die Iterationen des Räuber-Beute-Modells.
+    
+    iter_list: ist die Rückgabe der Funktion iteration.
+    """
+    plt.plot(iter_list)
     plt.show()
+    
+    
+def plot_phase_diagramm(iter_list):
+    """
+    Plottet das Phasendiagramm für die Iteration mit 2 Unbekannten (z.B. Räuber-Beute-Modell).
+    
+    iter_list: ist die Rückgabe der Funktion iteration.
+    """
+    try:
+        al = list([])
+        bl = list([])
+
+        for point in iter_list:
+            al.append(point[0])
+            bl.append(point[1])
+
+        plt.plot(al, bl)
+        plt.show()
+    except TypeError:
+        print("Kann nicht geplottet werden! Braucht eine Iterationsfolge mit 2 Variablen...")
