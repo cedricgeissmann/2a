@@ -67,7 +67,7 @@ def plot_iteration(iter_list):
     plt.show()
 
 
-def plot_phase_diagramm(iter_list):
+def plot_phase_diagramm(iter_list, *args, **kwargs):
     """
     Plottet das Phasendiagramm für die Iteration mit 2 Unbekannten (z.B.
     Räuber-Beute-Modell).
@@ -82,7 +82,7 @@ def plot_phase_diagramm(iter_list):
             al.append(point[0])
             bl.append(point[1])
 
-        plt.plot(al, bl)
+        plt.plot(al, bl, *args, **kwargs)
         plt.show()
     except TypeError:
         print(
