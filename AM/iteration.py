@@ -11,9 +11,9 @@ def rauber_beute(x, **kwargs):
     d = kwargs.get("d")
     H = x[0]
     L = x[1]
-    H = H + a * H - b * H * L
-    L = L - c * L + d * H * L
-    return [H, L]
+    H_new = H + a * H - b * H * L
+    L_new = L - c * L + d * H * L
+    return [H_new, L_new]
 
 
 def si_modell(x, **kwargs):
@@ -24,9 +24,26 @@ def si_modell(x, **kwargs):
     b = kwargs.get("b")
     S = x[0]
     I = x[1]
-    S = S - a * S + b * I
-    I = I + a * S - b * I
-    return [S, I]
+    S_new = S - a * S + b * I
+    I_new = I + a * S - b * I
+    return [S_new, I_new]
+
+
+def sir_modell(x, **kwargs):
+    """Iterationsfunktion für das SIR-Modell."""
+    x_elem = list(x)
+    assert len(x_elem) == 3
+    a = kwargs.get("a")
+    b = kwargs.get("b")
+    c = kwargs.get("c")
+    S = x[0]
+    I = x[1]
+    R = x[2]
+    N = S + I + R
+    S_new = S - b * I * S / N
+    R = R + c * I
+    I_new = I + b * S * I / N - c * I
+    return [S_new, I_new, R]
 
 
 def cond(x_list):
