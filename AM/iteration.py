@@ -1,5 +1,7 @@
 from matplotlib import pyplot as plt
 
+import numpy as np
+
 
 def rauber_beute(x, **kwargs):
     """Iterationsfunktion für das Räuber-Beute-Modell."""
@@ -92,16 +94,20 @@ def plot_phase_diagramm(iter_list, *args, **kwargs):
     iter_list: ist die Rückgabe der Funktion iteration.
     """
     try:
-        al = list([])
-        bl = list([])
+        new_list = simple_remap(iter_list)
 
-        for point in iter_list:
-            al.append(point[0])
-            bl.append(point[1])
-
-        plt.plot(al, bl, *args, **kwargs)
+        plt.plot(new_list[0], new_list[1], *args, **kwargs)
         plt.show()
     except TypeError:
         print(
             "Kann nicht geplottet werden! Braucht eine Iterationsfolge mit 2 Variablen..."
         )
+
+
+def simple_remap(bad_list):
+    """
+    Nimmt eine Liste mit Einträgen in der Form [[list1], [list2], ...]
+    entgegen, und macht daraus eine Liste der Form [[elem1_list1, elem2_list2,
+    ...], [elem1_list2, elem2_list2, ...]].
+    """
+    return np.reshape(bad_list, (len(bad_list), 2)).T.tolist()
