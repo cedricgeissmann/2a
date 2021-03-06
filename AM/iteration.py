@@ -30,7 +30,6 @@ def si_modell(x, **kwargs):
     I_new = I + a * S - b * I
     return [S_new, I_new]
 
-
 def sir_modell(x, **kwargs):
     """Iterationsfunktion für das SIR-Modell."""
     x_elem = list(x)
@@ -41,11 +40,11 @@ def sir_modell(x, **kwargs):
     S = x[0]
     I = x[1]
     R = x[2]
-    N = S + I + R
-    S_new = S - b * I * S / N
-    R = R + c * I
-    I_new = I + b * S * I / N - c * I
-    return [S_new, I_new, R]
+    S_new = S - a * S * I + b * I
+    I_new = I + a * S * I - b * I - c * I
+    R_new = R + c * I
+    return [S_new, I_new, R_new]
+
 
 
 def cond(x_list):
