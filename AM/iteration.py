@@ -109,7 +109,7 @@ def simple_remap(bad_list):
     entgegen, und macht daraus eine Liste der Form [[elem1_list1, elem2_list2,
     ...], [elem1_list2, elem2_list2, ...]].
     """
-    return np.reshape(bad_list, (len(bad_list), 2)).T.tolist()
+    return np.reshape(bad_list, (len(bad_list), len(bad_list[0]))).T.tolist()
 
 def mean(iter_list,index):
     """
