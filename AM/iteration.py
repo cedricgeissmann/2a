@@ -111,3 +111,9 @@ def simple_remap(bad_list):
     ...], [elem1_list2, elem2_list2, ...]].
     """
     return np.reshape(bad_list, (len(bad_list), 2)).T.tolist()
+
+def mean(iter_list,index):
+    """
+    Berechnet das arithmetische Mittel von iter_list[0][index], list[1][index], ...
+    """
+    return np.mean(simple_remap(iter_list)[index])
