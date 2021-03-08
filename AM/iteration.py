@@ -47,16 +47,16 @@ def sir_modell(x, **kwargs):
 
 
 
-def cond(x_list):
+def false_function(x_list):
     """
-    Abbruchbedinnung für die Iteration.
+    Abbruchbedingung für die Iteration.
 
     Diese Funktion wird überschrieben wenn eine Abbruchbedinnung gewünscht wird.
     """
     return False
 
 
-def iteration(f, x0, n=10, **kwargs):
+def iteration(f, x0, n=10, cond=false_function,**kwargs):
     """
     Führt eine Iteration der Funktion f durch.
 
@@ -109,7 +109,7 @@ def simple_remap(bad_list):
     entgegen, und macht daraus eine Liste der Form [[elem1_list1, elem2_list2,
     ...], [elem1_list2, elem2_list2, ...]].
     """
-    return np.reshape(bad_list, (len(bad_list), 2)).T.tolist()
+    return np.reshape(bad_list, (len(bad_list), len(bad_list[0]))).T.tolist()
 
 def mean(iter_list,index):
     """
