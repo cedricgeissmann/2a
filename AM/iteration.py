@@ -30,7 +30,6 @@ def si_modell(x, **kwargs):
     I_new = I + a * S - b * I
     return [S_new, I_new]
 
-
 def sir_modell(x, **kwargs):
     """Iterationsfunktion für das SIR-Modell."""
     x_elem = list(x)
@@ -41,23 +40,23 @@ def sir_modell(x, **kwargs):
     S = x[0]
     I = x[1]
     R = x[2]
-    N = S + I + R
-    S_new = S - b * I * S / N
-    R = R + c * I
-    I_new = I + b * S * I / N - c * I
-    return [S_new, I_new, R]
+    S_new = S - a * S * I + b * I
+    I_new = I + a * S * I - b * I - c * I
+    R_new = R + c * I
+    return [S_new, I_new, R_new]
 
 
-def cond(x_list):
+
+def false_function(x_list):
     """
-    Abbruchbedinnung für die Iteration.
+    Abbruchbedingung für die Iteration.
 
     Diese Funktion wird überschrieben wenn eine Abbruchbedinnung gewünscht wird.
     """
     return False
 
 
-def iteration(f, x0, n=10, **kwargs):
+def iteration(f, x0, n=10, cond=false_function,**kwargs):
     """
     Führt eine Iteration der Funktion f durch.
 
@@ -110,4 +109,10 @@ def simple_remap(bad_list):
     entgegen, und macht daraus eine Liste der Form [[elem1_list1, elem2_list2,
     ...], [elem1_list2, elem2_list2, ...]].
     """
-    return np.reshape(bad_list, (len(bad_list), 2)).T.tolist()
+    return np.reshape(bad_list, (len(bad_list), len(bad_list[0]))).T.tolist()
+
+def mean(iter_list,index):
+    """
+    Berechnet das arithmetische Mittel von iter_list[0][index], list[1][index], ...
+    """
+    return np.mean(simple_remap(iter_list)[index])
